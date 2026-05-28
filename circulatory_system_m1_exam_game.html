@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>พิชิตระบบไหลเวียนเลือด สอบเข้า ม.1</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700;800;900&display=swap');
+  :root{
+    --bg1:#fff1f2; --bg2:#eff6ff; --ink:#172033; --deep:#7f1d1d; --red:#dc2626;
+    --pink:#fecdd3; --blue:#2563eb; --cyan:#06b6d4; --green:#16a34a; --wrong:#e11d48;
+    --card:rgba(255,255,255,.9); --shadow:0 22px 55px rgba(127,29,29,.18);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Sarabun',system-ui,sans-serif;color:var(--ink);min-height:100vh;background:
+    radial-gradient(circle at 8% 12%, #fecaca 0 17%, transparent 25%),
+    radial-gradient(circle at 86% 12%, #bfdbfe 0 16%, transparent 24%),
+    radial-gradient(circle at 50% 100%, #fee2e2 0 22%, transparent 32%),
+    linear-gradient(135deg,var(--bg1),var(--bg2)); overflow-x:hidden;}
+  body:before{content:"";position:fixed;inset:0;background-image:
+    linear-gradient(90deg,rgba(220,38,38,.07) 1px,transparent 1px),
+    linear-gradient(0deg,rgba(37,99,235,.05) 1px,transparent 1px);background-size:36px 36px;opacity:.75;pointer-events:none;}
+  .wrap{position:relative;z-index:1;width:min(1140px,96vw);margin:0 auto;padding:18px 0 28px;}
+  .screen{display:none;min-height:calc(100vh - 36px);align-items:center;justify-content:center;}
+  .screen.active{display:flex;}
+  .hero,.panel{width:100%;background:var(--card);backdrop-filter:blur(16px);border:2px solid rgba(255,255,255,.95);border-radius:34px;box-shadow:var(--shadow);padding:clamp(18px,3vw,34px);}
+  .badge{display:inline-flex;gap:8px;align-items:center;background:#450a0a;color:#fff;border-radius:999px;padding:9px 15px;font-weight:900;box-shadow:0 8px 0 #fecaca;font-size:clamp(14px,2vw,18px);}
+  h1{font-size:clamp(34px,6vw,70px);line-height:1.05;margin:18px 0 10px;color:#7f1d1d;letter-spacing:-1px;text-shadow:3px 3px 0 #fecaca;}
+  h2{font-size:clamp(26px,4vw,42px);margin:0 0 16px;color:#7f1d1d;}
+  .subtitle{font-size:clamp(18px,2.5vw,26px);font-weight:800;color:#991b1b;margin:0 0 20px;}
+  .grid2{display:grid;grid-template-columns:1.08fr .92fr;gap:22px;align-items:center;}
+  .organ-card{background:linear-gradient(180deg,#fff,#eff6ff);border:3px solid #fecaca;border-radius:28px;padding:18px;box-shadow:inset 0 -8px 0 rgba(37,99,235,.10);position:relative;overflow:hidden;}
+  .organ-card:before{content:"";position:absolute;inset:-30%;background:radial-gradient(circle,rgba(220,38,38,.12),transparent 55%);animation:pulse 3s ease-in-out infinite;}
+  .organ{position:relative;font-size:clamp(78px,14vw,154px);text-align:center;filter:drop-shadow(0 16px 12px rgba(127,29,29,.16));animation:bob 2.4s ease-in-out infinite;}
+  @keyframes bob{50%{transform:translateY(-10px) scale(1.02)}}
+  @keyframes pulse{50%{transform:scale(1.18);opacity:.55}}
+  .input{width:100%;font:900 clamp(20px,3vw,28px) 'Sarabun';padding:16px 18px;border-radius:22px;border:3px solid #ef4444;background:#fff;color:#7f1d1d;outline:none;box-shadow:0 8px 0 #fecaca;}
+  .btn{appearance:none;border:0;border-radius:22px;padding:15px 22px;font:900 clamp(18px,2.2vw,24px) 'Sarabun';cursor:pointer;color:#fff;background:linear-gradient(135deg,#dc2626,#be123c);box-shadow:0 9px 0 #7f1d1d,0 16px 28px rgba(225,29,72,.22);transition:.15s transform,.15s filter;margin:8px 8px 0 0;}
+  .btn:hover{filter:brightness(1.05);transform:translateY(-2px)} .btn:active{transform:translateY(5px);box-shadow:0 4px 0 #7f1d1d;}
+  .btn.alt{background:linear-gradient(135deg,#2563eb,#06b6d4);box-shadow:0 9px 0 #1e3a8a,0 16px 28px rgba(37,99,235,.2)}
+  .btn.dark{background:linear-gradient(135deg,#111827,#334155);box-shadow:0 9px 0 #020617;}
+  .tips{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px;}
+  .tip{background:#fff;border:2px dashed #ef4444;border-radius:22px;padding:13px;font-size:clamp(15px,2vw,20px);font-weight:800;}
+  .review{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;max-height:68vh;overflow:auto;padding-right:4px;}
+  .mini{background:#fff;border:2px solid #fecaca;border-radius:22px;padding:14px;box-shadow:0 8px 20px rgba(127,29,29,.08);}
+  .mini b{color:#991b1b;font-size:20px;display:block;margin-bottom:6px}.mini p{margin:0;font-size:16px;font-weight:700;line-height:1.45}
+  .topbar{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap}.pill{background:#fff;border:2px solid #fecaca;border-radius:999px;padding:9px 14px;font-weight:900;color:#7f1d1d}
+  .progress{height:14px;background:#fee2e2;border-radius:999px;overflow:hidden;border:1px solid #fecaca;flex:1;min-width:170px}.bar{height:100%;width:0;background:linear-gradient(90deg,#dc2626,#2563eb);transition:.25s}
+  .question-box{background:linear-gradient(180deg,#fff,#fff1f2);border:3px solid #ef4444;border-radius:28px;padding:18px;margin:12px 0;box-shadow:0 10px 26px rgba(127,29,29,.13);}
+  .qno{font-weight:900;color:#be123c;font-size:clamp(18px,2.4vw,24px)}
+  .qtext{font-size:clamp(21px,3.1vw,32px);font-weight:900;line-height:1.35;margin-top:8px;color:#172033;}
+  .choices{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin:16px 0;}
+  .choice{background:#fff;border:3px solid #fecaca;border-radius:24px;padding:15px;text-align:left;font:900 clamp(17px,2.4vw,23px) 'Sarabun';cursor:pointer;box-shadow:0 8px 0 #fee2e2;min-height:78px;color:#374151;transition:.15s;}
+  .choice:hover{transform:translateY(-2px);border-color:#ef4444}.choice.selected{background:#fee2e2;border-color:#2563eb;color:#7f1d1d;box-shadow:0 8px 0 #93c5fd;}
+  .nav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:8px}.tiny{font-size:15px;color:#7f1d1d;font-weight:800;margin-top:6px;}
+  .score-card{text-align:center;background:linear-gradient(180deg,#fff,#fff1f2);border:4px solid #ef4444;border-radius:30px;padding:24px;margin:12px 0;}.score{font-size:clamp(56px,11vw,110px);font-weight:900;color:#be123c;line-height:1;text-shadow:4px 4px 0 #fecaca;}.pass{font-size:clamp(25px,4vw,44px);font-weight:900;color:#16a34a}.fail{font-size:clamp(25px,4vw,44px);font-weight:900;color:#dc2626}
+  .answer-list{max-height:52vh;overflow:auto;display:grid;gap:10px;padding-right:5px;}.ans{background:#fff;border-left:8px solid #2563eb;border-radius:18px;padding:12px;box-shadow:0 7px 18px rgba(127,29,29,.08);font-size:16px}.ans.wrong{border-left-color:#dc2626;background:#fff1f2}.ans.correct{border-left-color:#16a34a;background:#f0fdf4}.ans b{color:#7f1d1d}
+  .worddoc{display:none;background:#fff;color:#111;padding:35px;max-width:850px;margin:20px auto;border-radius:0;box-shadow:0 0 0 1px #ddd;font-family:'Sarabun',sans-serif}.worddoc h2{text-align:center;color:#111}.worddoc table{width:100%;border-collapse:collapse}.worddoc td,.worddoc th{border:1px solid #333;padding:8px;vertical-align:top;font-size:14px}.worddoc th{background:#f3f4f6}.worddoc .sign{margin-top:30px;text-align:right}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr}.choices,.tips,.review{grid-template-columns:1fr}.hero,.panel{border-radius:24px;padding:16px}.organ{font-size:90px}.choice{min-height:auto}.screen{align-items:flex-start;padding-top:8px}.review{max-height:none}.answer-list{max-height:none}.btn{width:100%;margin:8px 0 0}.nav .btn{width:auto;flex:1}.topbar{align-items:stretch}.progress{width:100%}}
+  @media print{body{background:#fff}.wrap,.screen{display:none!important}.worddoc{display:block!important;box-shadow:none;margin:0;padding:0}.no-print{display:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section id="start" class="screen active"><div class="hero grid2"><div><span class="badge">🩸 Entrance Exam Challenge</span><h1>พิชิตระบบไหลเวียนเลือด<br>สอบเข้า ม.1</h1><p class="subtitle">ข้อสอบเลือกตอบระดับยาก 30 ข้อ • วิเคราะห์หัวใจ หลอดเลือด เลือด และการลำเลียงสาร</p><input id="playerName" class="input" placeholder="พิมพ์ชื่อผู้ทำแบบทดสอบ"/><div><button class="btn alt" onclick="showReview()">อ่านทบทวนก่อนสอบ</button><button class="btn" onclick="startGame()">เริ่มทำข้อสอบ</button></div><div class="tips"><div class="tip">✅ ตรวจคะแนนทีเดียวตอนจบ</div><div class="tip">📄 สรุปผลแบบส่งครูได้</div><div class="tip">🎯 เกณฑ์ผ่าน 24/30</div><div class="tip">🧠 เน้นวิเคราะห์เส้นทางเลือดและหน้าที่</div></div></div><div class="organ-card"><div class="organ">🫀🩸🫁</div><p class="subtitle" style="text-align:center">ภารกิจ: ตามรอยเลือดจากหัวใจ ปอด และทั่วร่างกาย</p></div></div></section>
+  <section id="review" class="screen"><div class="panel"><div class="topbar"><h2>หน้าทบทวนก่อนสอบ 📝</h2><button class="btn dark" onclick="go('start')">กลับหน้าแรก</button></div><div class="review" id="reviewGrid"></div><button class="btn" onclick="startGame()">พร้อมแล้ว เริ่มสอบ</button></div></section>
+  <section id="game" class="screen"><div class="panel"><div class="topbar"><span class="pill" id="namePill">ผู้เล่น: -</span><div class="progress"><div class="bar" id="bar"></div></div><span class="pill" id="answeredPill">ตอบแล้ว 0/30</span></div><div class="question-box"><div class="qno" id="qno"></div><div class="qtext" id="qtext"></div></div><div class="choices" id="choices"></div><div class="nav"><button class="btn dark" onclick="prevQ()">← ข้อก่อนหน้า</button><button class="btn alt" onclick="nextQ()">ข้อถัดไป →</button><button class="btn" onclick="finishExam()">ส่งข้อสอบ</button></div><div class="tiny">หมายเหตุ: ระบบจะยังไม่เฉลยระหว่างทำข้อสอบ เพื่อฝึกเหมือนสนามสอบจริง</div></div></section>
+  <section id="result" class="screen"><div class="panel"><h2>สรุปผลการทำแบบทดสอบ ✨</h2><div class="score-card"><div id="resultName" class="subtitle"></div><div class="score" id="scoreText"></div><div id="passText"></div></div><div><button class="btn alt" onclick="showWordDoc()">ดูสไตล์ Word / พิมพ์ส่งครู</button><button class="btn dark" onclick="go('game')">กลับไปดูข้อสอบ</button><button class="btn" onclick="resetAll()">เริ่มใหม่</button></div><h2 style="margin-top:20px">รายการคำตอบ</h2><div class="answer-list" id="answerList"></div></div></section>
+</div>
+<div class="worddoc" id="worddoc"></div>
+<script>
+const reviewItems=[
+ ['หัวใจ 4 ห้อง','หัวใจห้องบนรับเลือด ส่วนหัวใจห้องล่างสูบฉีดเลือดออกจากหัวใจ'],
+ ['เลือดดำ-เลือดแดง','เลือดแดงมีออกซิเจนมาก เลือดดำมีคาร์บอนไดออกไซด์มาก ยกเว้นหลอดเลือดปอดที่กลับกัน'],
+ ['วงจรปอด','หัวใจห้องล่างขวาส่งเลือดดำไปปอด แล้วเลือดแดงกลับสู่หัวใจห้องบนซ้าย'],
+ ['วงจรร่างกาย','หัวใจห้องล่างซ้ายส่งเลือดแดงไปเลี้ยงร่างกาย แล้วเลือดดำกลับหัวใจห้องบนขวา'],
+ ['หลอดเลือดแดง','นำเลือดออกจากหัวใจ ผนังหนา ยืดหยุ่น แรงดันสูง'],
+ ['หลอดเลือดดำ','นำเลือดกลับหัวใจ มีลิ้นกันเลือดไหลย้อน แรงดันต่ำกว่า'],
+ ['หลอดเลือดฝอย','ผนังบางมาก เป็นจุดแลกเปลี่ยนแก๊ส สารอาหาร และของเสียกับเซลล์'],
+ ['เม็ดเลือดแดง','มีฮีโมโกลบิน ช่วยลำเลียงออกซิเจน ไม่มีนิวเคลียสเมื่อโตเต็มที่'],
+ ['เม็ดเลือดขาว','ทำหน้าที่ป้องกันและกำจัดเชื้อโรค'],
+ ['เกล็ดเลือด','ช่วยให้เลือดแข็งตัวเมื่อเกิดบาดแผล'],
+ ['พลาสมา','ส่วนของเหลวในเลือด ลำเลียงสารอาหาร ฮอร์โมน ของเสีย และความร้อน'],
+ ['ลิ้นหัวใจ','ช่วยให้เลือดไหลทางเดียว ไม่ไหลย้อนกลับ']
+];
+const questions=[
+{q:'ข้อใดเรียงลำดับการไหลของเลือดจากร่างกายกลับไปฟอกที่ปอดได้ถูกต้องที่สุด?',c:['ร่างกาย → หัวใจห้องบนซ้าย → ห้องล่างซ้าย → ปอด','ร่างกาย → หัวใจห้องบนขวา → ห้องล่างขวา → ปอด','ร่างกาย → หัวใจห้องล่างขวา → ห้องบนขวา → ปอด','ร่างกาย → ปอด → ห้องล่างซ้าย → ห้องบนซ้าย'],a:1,e:'เลือดดำจากร่างกายเข้าสู่หัวใจห้องบนขวา ไปห้องล่างขวา แล้วถูกส่งไปปอด'},
+{q:'หลอดเลือดใดมีลักษณะพิเศษคือ “นำเลือดดำออกจากหัวใจไปยังปอด”?',c:['หลอดเลือดแดงใหญ่เอออร์ตา','หลอดเลือดแดงปอด','หลอดเลือดดำปอด','หลอดเลือดดำใหญ่'],a:1,e:'หลอดเลือดแดงปอดเป็นข้อยกเว้น เพราะเป็นหลอดเลือดแดงที่นำเลือดดำจากหัวใจไปปอด'},
+{q:'หลอดเลือดใดมีลักษณะพิเศษคือ “นำเลือดแดงจากปอดกลับเข้าสู่หัวใจ”?',c:['หลอดเลือดดำปอด','หลอดเลือดแดงปอด','หลอดเลือดแดงใหญ่','หลอดเลือดฝอย'],a:0,e:'หลอดเลือดดำปอดเป็นข้อยกเว้น เพราะเป็นหลอดเลือดดำที่นำเลือดแดงกลับหัวใจ'},
+{q:'หัวใจห้องใดมีกล้ามเนื้อหนาที่สุด เพราะต้องสูบฉีดเลือดไปทั่วร่างกาย?',c:['หัวใจห้องบนขวา','หัวใจห้องบนซ้าย','หัวใจห้องล่างขวา','หัวใจห้องล่างซ้าย'],a:3,e:'ห้องล่างซ้ายต้องสร้างแรงดันสูงเพื่อส่งเลือดไปทั่วร่างกาย'},
+{q:'ถ้าลิ้นหัวใจทำงานผิดปกติ ผลที่เกิดขึ้นโดยตรงที่สุดคืออะไร?',c:['เลือดอาจไหลย้อนกลับ','เม็ดเลือดแดงสร้างออกซิเจนเองได้','หลอดเลือดฝอยหนาขึ้นทันที','ปอดหยุดแลกเปลี่ยนแก๊สทุกส่วน'],a:0,e:'ลิ้นหัวใจช่วยควบคุมให้เลือดไหลทางเดียว'},
+{q:'เลือดที่ออกจากหัวใจห้องล่างซ้ายจะเข้าสู่หลอดเลือดใดก่อน?',c:['หลอดเลือดแดงใหญ่เอออร์ตา','หลอดเลือดดำใหญ่','หลอดเลือดแดงปอด','หลอดเลือดดำปอด'],a:0,e:'ห้องล่างซ้ายสูบเลือดแดงเข้าสู่เอออร์ตาเพื่อส่งไปเลี้ยงร่างกาย'},
+{q:'เลือดที่ออกจากหัวใจห้องล่างขวาจะไปที่ใด?',c:['ไปทั่วร่างกายผ่านเอออร์ตา','ไปปอดผ่านหลอดเลือดแดงปอด','ไปหัวใจห้องบนซ้ายโดยตรง','ไปลำไส้เล็กเพื่อดูดซึมสารอาหาร'],a:1,e:'ห้องล่างขวาส่งเลือดดำไปปอดเพื่อแลกเปลี่ยนแก๊ส'},
+{q:'ข้อใดอธิบายหน้าที่ของหลอดเลือดฝอยได้เหมาะสมที่สุด?',c:['นำเลือดออกจากหัวใจด้วยแรงดันสูง','เป็นบริเวณแลกเปลี่ยนสารระหว่างเลือดกับเซลล์','เก็บเลือดสำรองทั้งหมดของร่างกาย','สร้างเม็ดเลือดแดงใหม่'],a:1,e:'หลอดเลือดฝอยมีผนังบาง เหมาะกับการแลกเปลี่ยนแก๊สและสารต่าง ๆ'},
+{q:'เหตุใดผนังหลอดเลือดแดงจึงหนาและยืดหยุ่นกว่าหลอดเลือดดำ?',c:['เพราะมีเลือดไหลช้ามาก','เพราะต้องรับแรงดันเลือดสูงจากหัวใจ','เพราะมีลิ้นจำนวนมากที่สุด','เพราะใช้แลกเปลี่ยนสารกับเซลล์โดยตรง'],a:1,e:'เลือดในหลอดเลือดแดงมีแรงดันสูงจากการบีบตัวของหัวใจ'},
+{q:'เหตุใดหลอดเลือดดำจึงมีลิ้นภายในหลอดเลือด?',c:['เพื่อเพิ่มออกซิเจนในเลือด','เพื่อป้องกันเลือดไหลย้อนกลับ','เพื่อสร้างเม็ดเลือดขาว','เพื่อทำให้เลือดแข็งตัว'],a:1,e:'หลอดเลือดดำมีแรงดันต่ำ จึงต้องมีลิ้นช่วยกันเลือดไหลย้อน'},
+{q:'ส่วนประกอบใดของเลือดทำหน้าที่ลำเลียงออกซิเจนเป็นหลัก?',c:['เม็ดเลือดแดง','เม็ดเลือดขาว','เกล็ดเลือด','พลาสมาเท่านั้น'],a:0,e:'เม็ดเลือดแดงมีฮีโมโกลบินซึ่งจับกับออกซิเจนได้'},
+{q:'ฮีโมโกลบินมีความสำคัญต่อระบบไหลเวียนเลือดเพราะอะไร?',c:['ช่วยย่อยอาหารในกระเพาะ','ช่วยจับและลำเลียงออกซิเจน','ช่วยให้เลือดแข็งตัวทันที','ทำลายเชื้อโรคทุกชนิดโดยตรง'],a:1,e:'ฮีโมโกลบินในเม็ดเลือดแดงช่วยจับออกซิเจนและพาไปยังเซลล์'},
+{q:'ถ้าจำนวนเม็ดเลือดแดงลดลงมาก ร่างกายจะได้รับผลกระทบด้านใดเด่นที่สุด?',c:['การลำเลียงออกซิเจนลดลง','การแข็งตัวของเลือดเร็วขึ้น','ภูมิคุ้มกันเพิ่มสูงขึ้นทันที','น้ำย่อยในลำไส้ลดลง'],a:0,e:'เม็ดเลือดแดงเป็นตัวหลักในการลำเลียงออกซิเจน'},
+{q:'เซลล์เม็ดเลือดขาวเกี่ยวข้องกับหน้าที่ใดมากที่สุด?',c:['ลำเลียงออกซิเจน','ป้องกันและกำจัดเชื้อโรค','ทำให้เลือดแข็งตัว','สร้างน้ำดี'],a:1,e:'เม็ดเลือดขาวเป็นส่วนสำคัญของระบบภูมิคุ้มกัน'},
+{q:'ถ้าเกล็ดเลือดต่ำมาก เมื่อเกิดบาดแผลจะมีปัญหาใดเด่นที่สุด?',c:['เลือดหยุดไหลยาก','หายใจเร็วขึ้นทันที','อาหารไม่ย่อย','เลือดมีออกซิเจนมากเกินไป'],a:0,e:'เกล็ดเลือดช่วยกระบวนการแข็งตัวของเลือด'},
+{q:'พลาสมามีบทบาทสำคัญอย่างไรในเลือด?',c:['เป็นของเหลวที่ลำเลียงสารอาหาร ฮอร์โมน และของเสีย','เป็นเซลล์ที่กินเชื้อโรคโดยตรง','เป็นเซลล์ที่ไม่มีนิวเคลียสและจับออกซิเจน','เป็นชิ้นส่วนเซลล์ที่ทำให้เลือดแข็งตัวเท่านั้น'],a:0,e:'พลาสมาคือส่วนของเหลวของเลือด ช่วยพาสารหลายชนิดไปทั่วร่างกาย'},
+{q:'การแลกเปลี่ยนแก๊สระหว่างเลือดกับถุงลมปอดเกิดเด่นที่สุดที่หลอดเลือดชนิดใด?',c:['หลอดเลือดแดงใหญ่','หลอดเลือดดำใหญ่','หลอดเลือดฝอยรอบถุงลม','หลอดเลือดดำที่ขา'],a:2,e:'หลอดเลือดฝอยรอบถุงลมมีผนังบาง เหมาะกับการแพร่ของแก๊ส'},
+{q:'เมื่อเลือดผ่านปอด ปริมาณแก๊สใดเพิ่มขึ้นในเลือด?',c:['ออกซิเจน','คาร์บอนไดออกไซด์','ไนโตรเจนทั้งหมด','ไอน้ำทั้งหมด'],a:0,e:'เลือดรับออกซิเจนจากถุงลมปอดและปล่อยคาร์บอนไดออกไซด์ออก'},
+{q:'เมื่อเลือดไหลผ่านเซลล์ของร่างกาย ปริมาณแก๊สใดในเลือดมักเพิ่มขึ้น?',c:['ออกซิเจน','คาร์บอนไดออกไซด์','ฮีเลียม','โอโซน'],a:1,e:'เซลล์ใช้พลังงานและปล่อยคาร์บอนไดออกไซด์เข้าสู่เลือด'},
+{q:'ข้อใดเป็นความสัมพันธ์ที่ถูกต้องระหว่างระบบหายใจกับระบบไหลเวียนเลือด?',c:['ระบบหายใจสร้างเม็ดเลือดแดงทั้งหมด','ระบบไหลเวียนเลือดลำเลียงแก๊สที่แลกเปลี่ยนจากปอดไปยังเซลล์','ระบบไหลเวียนเลือดทำให้ปอดย่อยอาหาร','ระบบหายใจทำให้เลือดแข็งตัว'],a:1,e:'ปอดแลกเปลี่ยนแก๊ส ส่วนเลือดลำเลียงแก๊สไปและกลับจากเซลล์'},
+{q:'ถ้าหลอดเลือดแดงใหญ่ตีบแคบลงอย่างมาก ผลใดมีโอกาสเกิดขึ้น?',c:['เลือดแดงไปเลี้ยงร่างกายลดลง','เลือดดำไปปอดมากขึ้นทันที','เม็ดเลือดขาวหายไปทั้งหมด','เกล็ดเลือดกลายเป็นเม็ดเลือดแดง'],a:0,e:'เอออร์ตาเป็นเส้นทางหลักส่งเลือดแดงจากหัวใจไปทั่วร่างกาย'},
+{q:'การวัดชีพจรสะท้อนเหตุการณ์ใดในระบบไหลเวียนเลือด?',c:['การบีบตัวของหัวใจทำให้หลอดเลือดแดงขยายเป็นจังหวะ','การย่อยแป้งในปาก','การทำงานของลำไส้ใหญ่','การผลิตน้ำดีจากตับ'],a:0,e:'ชีพจรเกิดจากแรงดันเลือดในหลอดเลือดแดงตามจังหวะหัวใจบีบตัว'},
+{q:'ความดันเลือดสูงสัมพันธ์กับความเสี่ยงใดมากที่สุด?',c:['หลอดเลือดและหัวใจทำงานหนักขึ้น','น้ำลายผลิตมากขึ้น','กระดูกยาวขึ้นทันที','การมองเห็นสีดีขึ้น'],a:0,e:'ความดันสูงทำให้หลอดเลือดและหัวใจรับภาระมากขึ้น'},
+{q:'ข้อใดเป็นพฤติกรรมที่ช่วยดูแลระบบไหลเวียนเลือดได้เหมาะสมที่สุด?',c:['ออกกำลังกายสม่ำเสมอและลดอาหารเค็มจัดมันจัด','นอนดึกทุกวันเพื่อให้หัวใจฝึกทำงาน','ไม่ดื่มน้ำเลยเพื่อลดปริมาณเลือด','กินไขมันมากที่สุดเพื่อเพิ่มพลังงาน'],a:0,e:'การออกกำลังกายและอาหารเหมาะสมช่วยลดความเสี่ยงโรคหัวใจและหลอดเลือด'},
+{q:'ทำไมการออกกำลังกายจึงทำให้หัวใจเต้นเร็วขึ้น?',c:['ร่างกายต้องลำเลียงออกซิเจนและสารอาหารไปกล้ามเนื้อมากขึ้น','หัวใจหยุดรับเลือดจากปอด','เม็ดเลือดแดงกลายเป็นเม็ดเลือดขาว','ปอดหยุดทำงานระหว่างออกกำลังกาย'],a:0,e:'กล้ามเนื้อต้องการพลังงานมากขึ้น จึงต้องส่งออกซิเจนและสารอาหารมากขึ้น'},
+{q:'ข้อใดกล่าวถูกต้องเกี่ยวกับเลือดในหลอดเลือดแดงส่วนใหญ่?',c:['มีออกซิเจนมากและไหลออกจากหัวใจ','มีคาร์บอนไดออกไซด์มากและไหลเข้าหัวใจเสมอ','มีน้ำดีมากที่สุด','ไม่มีพลาสมา'],a:0,e:'หลอดเลือดแดงส่วนใหญ่นำเลือดแดงออกจากหัวใจ ยกเว้นหลอดเลือดแดงปอด'},
+{q:'ข้อใดกล่าวถูกต้องเกี่ยวกับเลือดในหลอดเลือดดำส่วนใหญ่?',c:['มีออกซิเจนมากและออกจากหัวใจเสมอ','มีคาร์บอนไดออกไซด์มากและไหลกลับหัวใจ','ไม่มีเม็ดเลือดแดง','มีแต่เกล็ดเลือด'],a:1,e:'หลอดเลือดดำส่วนใหญ่นำเลือดดำกลับหัวใจ ยกเว้นหลอดเลือดดำปอด'},
+{q:'หากเลือดไม่ผ่านหลอดเลือดฝอย เนื้อเยื่อจะได้รับผลกระทบสำคัญอย่างไร?',c:['แลกเปลี่ยนออกซิเจน สารอาหาร และของเสียได้น้อยลง','หัวใจจะไม่มีลิ้นทันที','เม็ดเลือดแดงจะมีนิวเคลียสขึ้นทันที','น้ำดีจะไม่ถูกเก็บในถุงน้ำดี'],a:0,e:'หลอดเลือดฝอยเป็นจุดแลกเปลี่ยนสารระหว่างเลือดกับเซลล์'},
+{q:'ข้อใดอธิบาย “ระบบไหลเวียนเลือดแบบปิด” ของมนุษย์ได้ถูกต้อง?',c:['เลือดไหลอยู่ภายในหัวใจและหลอดเลือดเป็นหลัก','เลือดไหลออกมาอาบอวัยวะโดยไม่มีหลอดเลือด','เลือดมีแต่น้ำ ไม่มีเซลล์เม็ดเลือด','เลือดไม่เกี่ยวข้องกับหัวใจ'],a:0,e:'มนุษย์มีระบบไหลเวียนเลือดแบบปิด คือเลือดไหลในหลอดเลือด'},
+{q:'ถ้าเลือดจากปอดไม่สามารถกลับเข้าสู่หัวใจห้องบนซ้ายได้ตามปกติ ผลโดยตรงคืออะไร?',c:['เลือดแดงเข้าสู่หัวใจซีกซ้ายลดลง','เลือดดำจากร่างกายเข้าห้องบนขวามากขึ้นทันที','เกล็ดเลือดเพิ่มไม่จำกัด','ลำไส้เล็กดูดซึมไขมันไม่ได้เลย'],a:0,e:'เลือดแดงจากปอดกลับหัวใจผ่านหลอดเลือดดำปอดเข้าสู่ห้องบนซ้าย'}
+];
+let current=0, answers=Array(questions.length).fill(null), player='';
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0)}
+function showReview(){document.getElementById('reviewGrid').innerHTML=reviewItems.map(x=>`<div class="mini"><b>${x[0]}</b><p>${x[1]}</p></div>`).join('');go('review')}
+function startGame(){player=document.getElementById('playerName').value.trim()||'นักเรียน';document.getElementById('namePill').textContent='ผู้เล่น: '+player;current=0;renderQ();go('game');beep(520,.09)}
+function renderQ(){const q=questions[current];document.getElementById('qno').textContent=`ข้อ ${current+1} / ${questions.length}`;document.getElementById('qtext').textContent=q.q;document.getElementById('choices').innerHTML=q.c.map((ch,i)=>`<button class="choice ${answers[current]===i?'selected':''}" onclick="choose(${i})"><span>${['ก','ข','ค','ง'][i]}.</span> ${ch}</button>`).join('');let done=answers.filter(x=>x!==null).length;document.getElementById('answeredPill').textContent=`ตอบแล้ว ${done}/${questions.length}`;document.getElementById('bar').style.width=(done/questions.length*100)+'%'}
+function choose(i){answers[current]=i;renderQ();beep(650,.07)}
+function nextQ(){if(current<questions.length-1){current++;renderQ();beep(430,.06)}}
+function prevQ(){if(current>0){current--;renderQ();beep(360,.06)}}
+function finishExam(){let undone=answers.findIndex(x=>x===null);if(undone!==-1){alert('ยังทำไม่ครบจ้า เหลือข้อ '+(undone+1));current=undone;renderQ();return}showResult()}
+function showResult(){let score=questions.reduce((s,q,i)=>s+(answers[i]===q.a?1:0),0);document.getElementById('resultName').textContent='ชื่อผู้ทำแบบทดสอบ: '+player;document.getElementById('scoreText').textContent=score+' / '+questions.length;document.getElementById('passText').innerHTML=score>=24?'<div class="pass">ผ่านเกณฑ์ 🎉 หัวใจนักสู้!</div>':'<div class="fail">ยังไม่ผ่าน ลองทบทวนอีกครั้งนะ 💪</div>';document.getElementById('answerList').innerHTML=questions.map((q,i)=>{let ok=answers[i]===q.a;return `<div class="ans ${ok?'correct':'wrong'}"><b>ข้อ ${i+1}:</b> ${q.q}<br>คำตอบของนักเรียน: ${['ก','ข','ค','ง'][answers[i]]}. ${q.c[answers[i]]}<br>เฉลย: ${['ก','ข','ค','ง'][q.a]}. ${q.c[q.a]}<br><b>เหตุผล:</b> ${q.e}</div>`}).join('');buildWordDoc(score);go('result');beep(score>=24?780:240,.18)}
+function buildWordDoc(score){const date=new Date().toLocaleDateString('th-TH');let rows=questions.map((q,i)=>`<tr><td>${i+1}</td><td>${q.q}</td><td>${answers[i]===null?'-':['ก','ข','ค','ง'][answers[i]]}</td><td>${['ก','ข','ค','ง'][q.a]}</td><td>${answers[i]===q.a?'ถูก':'ผิด'}</td><td>${q.e}</td></tr>`).join('');document.getElementById('worddoc').innerHTML=`<h2>รายงานผลแบบทดสอบระบบไหลเวียนเลือด</h2><p><b>ชื่อ:</b> ${player} &nbsp;&nbsp; <b>วันที่:</b> ${date}</p><p><b>คะแนน:</b> ${score}/${questions.length} &nbsp;&nbsp; <b>ผล:</b> ${score>=24?'ผ่าน':'ยังไม่ผ่าน'}</p><table><thead><tr><th>ข้อ</th><th>คำถาม</th><th>ตอบ</th><th>เฉลย</th><th>ผล</th><th>เหตุผล</th></tr></thead><tbody>${rows}</tbody></table><div class="sign">ลงชื่อครูผู้ตรวจ ____________________</div><p class="no-print"><button onclick="window.print()">พิมพ์ / Save as PDF</button></p>`}
+function showWordDoc(){document.getElementById('worddoc').style.display='block';document.getElementById('worddoc').scrollIntoView({behavior:'smooth'});setTimeout(()=>window.print(),350)}
+function resetAll(){answers=Array(questions.length).fill(null);current=0;go('start')}
+let audioCtx;function beep(freq=500,dur=.1){try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator();const g=audioCtx.createGain();o.frequency.value=freq;o.type='sine';g.gain.setValueAtTime(.0001,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.09,audioCtx.currentTime+.01);g.gain.exponentialRampToValueAtTime(.0001,audioCtx.currentTime+dur);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+dur)}catch(e){}}
+showReview();go('start');
+</script>
+</body>
+</html>
